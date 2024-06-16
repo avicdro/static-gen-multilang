@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  node:
+    container_name: blp-static-page-node
+    build:
+      context: ../
+      dockerfile: docker/node/dockerfile
+    volumes:
+      - ..:/app
+    networks:
+      - webnet
+
+  nginx:
+    container_name: blp-static-page-nginx
+    build:
+      context: ../
+      dockerfile: docker/nginx/dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - node
+    networks:
+      - webnet
+
+networks:
+  webnet:
